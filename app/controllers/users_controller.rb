@@ -8,6 +8,6 @@ class UsersController < ApplicationController
     def index
       user = User.find_by(email: params[:email])
       user = user.authenticate(params[:password])
-      render json: user if user
+      user ?  (render json: user) : (render json: {})
     end
 end

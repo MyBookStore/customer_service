@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   resources :users, :only => [:index,:create] do
   end
   post 'users/new' => 'users#new'
-  get 'users/find_user' => 'users#index'
+  get 'users/user' => 'users#index'
   # resources :users, :only => [:create]
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
