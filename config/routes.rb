@@ -3,9 +3,13 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   resources :users, :only => [:index,:create] do
+    collection do
+      get 'search'
+    end
   end
-  post 'users/new' => 'users#new'
+  post 'users/create' => 'users#create'
   get 'users/user' => 'users#index'
+
   # resources :users, :only => [:create]
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
