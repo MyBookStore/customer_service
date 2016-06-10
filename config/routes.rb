@@ -7,8 +7,8 @@ Rails.application.routes.draw do
       get 'search'
     end
   end
-  post 'users/create' => 'users#create'
-  get 'users/user' => 'users#index'
+  post 'users/new' => 'users#create'
+  get 'users/user' => 'users#search'
 
   # resources :users, :only => [:create]
   # You can have the root of your site routed with "root"
