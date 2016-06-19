@@ -21,15 +21,5 @@ FactoryGirl.define do
     trait :invalid_password_confirmation do
       password_confirmation 'foobar'
     end
-
-
-    trait :saved do
-      true
-    end
-
-    trait :not_saved do
-      false
-    end
-
   end
 end

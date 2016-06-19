@@ -7,7 +7,7 @@ Rails.application.routes.draw do
       get 'search'
     end
   end
-  post 'users/new' => 'users#create'
+  post 'users/create' => 'users#create'
   get 'users/user' => 'users#search'
 
   # resources :users, :only => [:create]
