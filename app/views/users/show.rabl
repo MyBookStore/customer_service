@@ -1,2 +1,2 @@
 object @user
-attributes :name, :email
+attributes :id, :name, :email, :password_digest

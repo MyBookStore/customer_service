@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   def create
+    # User.destroy_all # for test use only.
     @user = User.new(user_params)
     if @user.save
       render json: @user, status: 201

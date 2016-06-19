@@ -1,39 +1,51 @@
 require 'rails_helper'
 
-RSpec.describe UsersController, type: :controller do
+describe UsersController, type: :controller do
+  render_views
+  user_name = 'test'
+  password = '12345678'
+  email_id = 'test@gmail.com'
 
-  describe ':usercontroller' do
-    user_name = 'test'
-    password = '12345678'
-    email_id = 'test@gmail.com'
+  describe 'create' do
+    context 'user details are correct' do
+      it 'should save user' do
+        user = FactoryGirl.create(:user)
+        user_info = {name: user.name, email: user.email, password: user.password, password_confirmation: user.password_confirmation}
+        expect(User).to receive(:new).and_return(user)
+        expect(user).to receive(:save).and_return(true)
+        post :create, user: user_info
+        expected_user = (JSON.parse(response.body).with_indifferent_access)[:user]
 
-    describe 'create' do
-      context 'user details are correct' do
-        it 'should save user' do
-          user = double('user', :save => true)
-          expect(User).to receive(:new).and_return(user)
-          expect(user).to receive(:save)
-          post :create, user: {name: user_name, password: password, email: email_id, password_confirmation: password}
-          expect(response.status).to eql(201)
-        end
-      end
-
-      context 'user details are not correct' do
-        it 'should not save user' do
-          user = double('user', save: false)
-          expect(User).to receive(:new).and_return(user)
-          expect(user).to receive(:save)
-          post :create, user: {name: user_name, password: password, email: 'email_id', password_confirmation: password}
-          expect(response.status).to eql(422)
-        end
+        expect(response.status).to eql(201)
+        expect(expected_user[:name]).to eq(user[:name])
+        expect(expected_user[:email]).to eq(user[:email])
+        expect(expected_user[:password_digest]).to eq(user[:password_digest])
       end
     end
 
-    describe '#get' do
-      it 'should return customer for given params' do
-        user = User.create({name: user_name, password: password, email: email_id, password_confirmation: password})
-        get :search, {user: {email: email_id}}
+    context 'user details are not correct' do
+      it 'should not save user' do
+        user_info = {name: '', email: 'asfdsag@dghskd', password: 'safdsag', password_confirmation: 'sagsadgas'}
+        expect {
+          post :create, user: user_info
+          expect(response.status).to eql(422)
+        }.to raise_error
+      end
+    end
+  end
+
+  describe '#search' do
+
+    context 'user present' do
+      it 'should find and return user' do
+        user = FactoryGirl.create(:user)
+        get :search, user: {:user => user[:id]}
+        expected_user = (JSON.parse(response.body).first.with_indifferent_access)[:user]
+
         expect(response.status).to eql(200)
+        expect(expected_user[:name]).to eq(user[:name])
+        expect(expected_user[:email]).to eq(user[:email])
+        expect(expected_user[:password_digest]).to eq(user[:password_digest])
       end
     end
   end
