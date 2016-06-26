@@ -9,9 +9,7 @@ describe UsersController, type: :controller do
 
 
   describe 'create' do
-    before(:each) {
-      User.destroy_all # for test use only.
-    }
+
     context 'user details are correct' do
       it 'should save user' do
         user = FactoryGirl.create(:user)
@@ -40,19 +38,19 @@ describe UsersController, type: :controller do
     end
   end
 
-  describe '#search' do
-
-    context 'user present' do
-      it 'should find and return user' do
-        user = FactoryGirl.create(:user)
-        get :search, user: {:id => user[:id]}
-        expected_user = (JSON.parse(response.body).with_indifferent_access)
-
-        expect(response.status).to eql(200)
-        expect(expected_user[:name]).to eq(user[:name])
-        expect(expected_user[:email]).to eq(user[:email])
-        expect(expected_user[:password_digest]).to eq(user[:password_digest])
-      end
-    end
-  end
+  # describe '#search' do
+  #
+  #   context 'user present' do
+  #     it 'should find and return user' do
+  #       user = FactoryGirl.create(:user)
+  #       get :search, user: {:id => user[:id]}
+  #       expected_user = (JSON.parse(response.body).with_indifferent_access)
+  #
+  #       expect(response.status).to eql(200)
+  #       expect(expected_user[:name]).to eq(user[:name])
+  #       expect(expected_user[:email]).to eq(user[:email])
+  #       expect(expected_user[:password_digest]).to eq(user[:password_digest])
+  #     end
+  #   end
+  # end
 end
